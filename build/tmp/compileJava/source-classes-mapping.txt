@@ -18,3 +18,6 @@ dev/be/loan/dto/ResponseDTO.java
 dev/be/loan/dto/ResultObject.java
  dev.be.loan.dto.ResultObject
  dev.be.loan.dto.ResultObject$ResultObjectBuilder
+dev/be/loan/domain/Counsel.java
+ dev.be.loan.domain.Counsel
+ dev.be.loan.domain.Counsel$CounselBuilder
