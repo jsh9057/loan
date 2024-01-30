@@ -29,9 +29,9 @@ dev/be/loan/dto/CounselDTO.java
  dev.be.loan.dto.CounselDTO$Response$ResponseBuilder
 dev/be/loan/repository/CounselRepository.java
  dev.be.loan.repository.CounselRepository
-dev/be/loan/service/CounselServiceImpl.java
- dev.be.loan.service.CounselServiceImpl
 dev/be/loan/service/CounselService.java
  dev.be.loan.service.CounselService
+dev/be/loan/service/CounselServiceImpl.java
+ dev.be.loan.service.CounselServiceImpl
 dev/be/loan/controller/CounselController.java
  dev.be.loan.controller.CounselController
