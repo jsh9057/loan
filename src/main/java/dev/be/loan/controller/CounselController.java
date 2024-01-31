@@ -30,7 +30,7 @@ public class CounselController extends AbstractController{
     }
 
     @DeleteMapping("/{counselId}")
-    public ResponseDTO<Response> delete(@PathVariable Long counselId) {
+    public ResponseDTO<Void> delete(@PathVariable Long counselId) {
         counselService.delete(counselId);
         return ok();
     }

@@ -3,9 +3,10 @@ package dev.be.loan.dto;
 import lombok.*;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-public class CounselDTO implements Serializable {
+public class ApplicationDTO implements Serializable {
 
     @NoArgsConstructor
     @AllArgsConstructor
@@ -19,13 +20,7 @@ public class CounselDTO implements Serializable {
 
         private String email;
 
-        private String memo;
-
-        private String address;
-
-        private String addressDetail;
-
-        private String zipCode;
+        private BigDecimal hopeAmount;
     }
 
     @NoArgsConstructor
@@ -35,7 +30,7 @@ public class CounselDTO implements Serializable {
     @Setter
     public static class Response {
 
-        private Long counselId;
+        private Long applicationId;
 
         private String name;
 
@@ -43,13 +38,7 @@ public class CounselDTO implements Serializable {
 
         private String email;
 
-        private String memo;
-
-        private String address;
-
-        private String addressDetail;
-
-        private String zipCode;
+        private BigDecimal hopeAmount;
 
         private LocalDateTime appliedAt;
 
@@ -57,4 +46,5 @@ public class CounselDTO implements Serializable {
 
         private LocalDateTime updatedAt;
     }
+
 }
