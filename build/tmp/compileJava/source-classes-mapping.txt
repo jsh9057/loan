@@ -52,3 +52,20 @@ dev/be/loan/service/ApplicationServiceImpl.java
  dev.be.loan.service.ApplicationServiceImpl
 dev/be/loan/controller/CounselController.java
  dev.be.loan.controller.CounselController
+dev/be/loan/dto/TermsDTO.java
+ dev.be.loan.dto.TermsDTO
+ dev.be.loan.dto.TermsDTO$Request
+ dev.be.loan.dto.TermsDTO$Request$RequestBuilder
+ dev.be.loan.dto.TermsDTO$Response
+ dev.be.loan.dto.TermsDTO$Response$ResponseBuilder
+dev/be/loan/repository/TermsRepository.java
+ dev.be.loan.repository.TermsRepository
+dev/be/loan/domain/Terms.java
+ dev.be.loan.domain.Terms
+ dev.be.loan.domain.Terms$TermsBuilder
+dev/be/loan/service/TermsServiceImpl.java
+ dev.be.loan.service.TermsServiceImpl
+dev/be/loan/service/TermsService.java
+ dev.be.loan.service.TermsService
+dev/be/loan/controller/TermsController.java
+ dev.be.loan.controller.TermsController
