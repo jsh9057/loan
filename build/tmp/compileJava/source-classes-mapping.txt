@@ -31,8 +31,8 @@ dev/be/loan/dto/CounselDTO.java
  dev.be.loan.dto.CounselDTO$Request$RequestBuilder
  dev.be.loan.dto.CounselDTO$Response
  dev.be.loan.dto.CounselDTO$Response$ResponseBuilder
-dev/be/loan/controller/ApplicationController.java
- dev.be.loan.controller.ApplicationController
+dev/be/loan/service/TermsService.java
+ dev.be.loan.service.TermsService
 dev/be/loan/repository/ApplicationRepository.java
  dev.be.loan.repository.ApplicationRepository
 dev/be/loan/service/CounselServiceImpl.java
@@ -40,16 +40,13 @@ dev/be/loan/service/CounselServiceImpl.java
 dev/be/loan/domain/Application.java
  dev.be.loan.domain.Application
  dev.be.loan.domain.Application$ApplicationBuilder
-dev/be/loan/dto/ApplicationDTO.java
- dev.be.loan.dto.ApplicationDTO
- dev.be.loan.dto.ApplicationDTO$Request
- dev.be.loan.dto.ApplicationDTO$Request$RequestBuilder
- dev.be.loan.dto.ApplicationDTO$Response
- dev.be.loan.dto.ApplicationDTO$Response$ResponseBuilder
-dev/be/loan/service/ApplicationService.java
- dev.be.loan.service.ApplicationService
-dev/be/loan/service/ApplicationServiceImpl.java
- dev.be.loan.service.ApplicationServiceImpl
+dev/be/loan/domain/Terms.java
+ dev.be.loan.domain.Terms
+ dev.be.loan.domain.Terms$TermsBuilder
+dev/be/loan/controller/TermsController.java
+ dev.be.loan.controller.TermsController
+dev/be/loan/service/TermsServiceImpl.java
+ dev.be.loan.service.TermsServiceImpl
 dev/be/loan/controller/CounselController.java
  dev.be.loan.controller.CounselController
 dev/be/loan/dto/TermsDTO.java
@@ -60,12 +57,22 @@ dev/be/loan/dto/TermsDTO.java
  dev.be.loan.dto.TermsDTO$Response$ResponseBuilder
 dev/be/loan/repository/TermsRepository.java
  dev.be.loan.repository.TermsRepository
-dev/be/loan/domain/Terms.java
- dev.be.loan.domain.Terms
- dev.be.loan.domain.Terms$TermsBuilder
-dev/be/loan/service/TermsServiceImpl.java
- dev.be.loan.service.TermsServiceImpl
-dev/be/loan/service/TermsService.java
- dev.be.loan.service.TermsService
-dev/be/loan/controller/TermsController.java
- dev.be.loan.controller.TermsController
+dev/be/loan/service/ApplicationService.java
+ dev.be.loan.service.ApplicationService
+dev/be/loan/domain/AcceptTerms.java
+ dev.be.loan.domain.AcceptTerms
+ dev.be.loan.domain.AcceptTerms$AcceptTermsBuilder
+dev/be/loan/service/ApplicationServiceImpl.java
+ dev.be.loan.service.ApplicationServiceImpl
+dev/be/loan/repository/AcceptTermsRepository.java
+ dev.be.loan.repository.AcceptTermsRepository
+dev/be/loan/dto/ApplicationDTO.java
+ dev.be.loan.dto.ApplicationDTO
+ dev.be.loan.dto.ApplicationDTO$AcceptTerms
+ dev.be.loan.dto.ApplicationDTO$AcceptTerms$AcceptTermsBuilder
+ dev.be.loan.dto.ApplicationDTO$Request
+ dev.be.loan.dto.ApplicationDTO$Request$RequestBuilder
+ dev.be.loan.dto.ApplicationDTO$Response
+ dev.be.loan.dto.ApplicationDTO$Response$ResponseBuilder
+dev/be/loan/controller/ApplicationController.java
+ dev.be.loan.controller.ApplicationController
