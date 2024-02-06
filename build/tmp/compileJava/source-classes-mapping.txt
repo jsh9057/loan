@@ -76,3 +76,7 @@ dev/be/loan/dto/ApplicationDTO.java
  dev.be.loan.dto.ApplicationDTO$Response$ResponseBuilder
 dev/be/loan/controller/ApplicationController.java
  dev.be.loan.controller.ApplicationController
+dev/be/loan/service/FileStorageService.java
+ dev.be.loan.service.FileStorageService
+dev/be/loan/service/FileStorageServiceImpl.java
+ dev.be.loan.service.FileStorageServiceImpl
