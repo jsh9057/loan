@@ -62,4 +62,73 @@ public class JudgmentServiceTest {
         assertThat(actual.getApplicationId()).isSameAs(judgment.getApplicationId());
         assertThat(actual.getApprovalAmount()).isSameAs(judgment.getApprovalAmount());
     }
+
+    @Test
+    void JudgmentId로_요청했을때_존재하는경우_ResponseOfJudgmentEntity를_반환한다() {
+        Judgment entity = Judgment.builder()
+                .judgmentId(1L)
+                .build();
+
+        when(judgmentRepository.findById(1L)).thenReturn(Optional.ofNullable(entity));
+
+        Response actual = judgmentService.get(1L);
+
+        assertThat(actual.getJudgmentId()).isSameAs(1L);
+    }
+
+    @Test
+    void ApplicationId로_요청했을때_존재하는경우_ResponseOfJudgmentEntity를_반환한다() {
+        Judgment judgmentEntity = Judgment.builder()
+                .judgmentId(1L)
+                .build();
+
+        Application applicationEntity = Application.builder()
+                .applicationId(1L)
+                .build();
+
+        when(applicationRepository.findById(1L)).thenReturn(Optional.ofNullable(applicationEntity));
+        when(judgmentRepository.findByApplicationId(1L)).thenReturn(Optional.ofNullable(judgmentEntity));
+
+        Response actual = judgmentService.getJudgmentOfApplication(1L);
+
+        assertThat(actual.getJudgmentId()).isSameAs(1L);
+    }
+
+    @Test
+    void 존재하는Judgment정보로_수정요청이왔을때_수정된_JudgmentEntity를_반환한다() {
+
+        Judgment entity = Judgment.builder()
+                .judgmentId(1L)
+                .name("test")
+                .approvalAmount(BigDecimal.valueOf(1000000))
+                .build();
+
+        Request request = Request.builder()
+                .name("테스트")
+                .approvalAmount(BigDecimal.valueOf(10000000))
+                .build();
+
+        when(judgmentRepository.findById(1L)).thenReturn(Optional.ofNullable(entity));
+        when(judgmentRepository.save(ArgumentMatchers.any(Judgment.class))).thenReturn(entity);
+
+        Response actual = judgmentService.update(1L, request);
+
+        assertThat(actual.getJudgmentId()).isSameAs(1L);
+        assertThat(actual.getName()).isSameAs(request.getName());
+        assertThat(actual.getApprovalAmount()).isSameAs(request.getApprovalAmount());
+    }
+
+    @Test
+    void 존재하는Judgment정보로_삭제요청을하면_JudgmentEntity를_삭제한다() {
+        Judgment entity = Judgment.builder()
+                .judgmentId(1L)
+                .build();
+
+        when(judgmentRepository.findById(1L)).thenReturn(Optional.ofNullable(entity));
+        when(judgmentRepository.save(ArgumentMatchers.any(Judgment.class))).thenReturn(entity);
+
+        judgmentService.delete(1L);
+
+        assertThat(entity.getIsDeleted()).isTrue();
+    }
 }
