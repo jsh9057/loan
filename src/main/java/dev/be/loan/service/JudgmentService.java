@@ -1,5 +1,7 @@
 package dev.be.loan.service;
 
+import dev.be.loan.dto.ApplicationDTO;
+import dev.be.loan.dto.ApplicationDTO.GrantAmount;
 import dev.be.loan.dto.JudgmentDTO.Request;
 import dev.be.loan.dto.JudgmentDTO.Response;
 
@@ -14,4 +16,6 @@ public interface JudgmentService {
     Response update(Long judgmentId, Request request);
 
     void delete(Long judgmentId);
+
+    GrantAmount grant(Long judgmentId);
 }

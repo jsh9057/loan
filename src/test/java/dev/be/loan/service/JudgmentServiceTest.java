@@ -2,6 +2,7 @@ package dev.be.loan.service;
 
 import dev.be.loan.domain.Application;
 import dev.be.loan.domain.Judgment;
+import dev.be.loan.dto.ApplicationDTO.GrantAmount;
 import dev.be.loan.dto.JudgmentDTO.Request;
 import dev.be.loan.dto.JudgmentDTO.Response;
 import dev.be.loan.repository.ApplicationRepository;
@@ -130,5 +131,28 @@ public class JudgmentServiceTest {
         judgmentService.delete(1L);
 
         assertThat(entity.getIsDeleted()).isTrue();
+    }
+
+    @Test
+    void 존재하는_Judgment의_GrantApprovalAmount로_요청하면_업데이트된_GrantAmount를_반환한다() {
+        Judgment judgmentEntity = Judgment.builder()
+                .name("테스트")
+                .applicationId(1L)
+                .approvalAmount(BigDecimal.valueOf(5000000))
+                .build();
+
+        Application applicationEntity = Application.builder()
+                .applicationId(1L)
+                .approvalAmount(BigDecimal.valueOf(5000000))
+                .build();
+
+        when(judgmentRepository.findById(1L)).thenReturn(Optional.ofNullable(judgmentEntity));
+        when(applicationRepository.findById(1L)).thenReturn(Optional.ofNullable(applicationEntity));
+        when(applicationRepository.save(ArgumentMatchers.any(Application.class))).thenReturn(applicationEntity);
+
+        GrantAmount actual = judgmentService.grant(1L);
+
+        assertThat(actual.getApplicationId()).isSameAs(1L);
+        assertThat(actual.getApprovalAmount()).isSameAs(judgmentEntity.getApprovalAmount());
     }
 }
