@@ -5,6 +5,7 @@ import dev.be.loan.domain.Entry;
 import dev.be.loan.dto.BalanceDTO;
 import dev.be.loan.dto.EntryDTO.Request;
 import dev.be.loan.dto.EntryDTO.Response;
+import dev.be.loan.dto.EntryDTO.UpdateResponse;
 import dev.be.loan.exception.BaseException;
 import dev.be.loan.exception.ResultType;
 import dev.be.loan.repository.ApplicationRepository;
@@ -13,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.Optional;
 
 @Service
@@ -46,6 +48,43 @@ public class EntryServiceImpl implements EntryService {
                         .build());
 
         return modelMapper.map(entry, Response.class);
+    }
+
+    @Override
+    public Response get(Long applicationId) {
+        Optional<Entry> entry = entryRepository.findByApplicationId(applicationId);
+
+        if (entry.isPresent()) {
+            return modelMapper.map(entry, Response.class);
+        } else {
+            return null;
+        }
+    }
+
+    @Override
+    public UpdateResponse update(Long entryId, Request request) {
+        Entry entry = entryRepository.findById(entryId).orElseThrow(() -> {
+            throw new BaseException(ResultType.SYSTEM_ERROR);
+        });
+
+        BigDecimal beforeEntryAmount = entry.getEntryAmount();
+        entry.setEntryAmount(request.getEntryAmount());
+
+        entryRepository.save(entry);
+
+        Long applicationId = entry.getApplicationId();
+        balanceService.update(applicationId,
+                BalanceDTO.UpdateRequest.builder()
+                        .beforeEntryAmount(beforeEntryAmount)
+                        .afterEntryAmount(request.getEntryAmount())
+                        .build());
+
+        return UpdateResponse.builder()
+                .entryId(entryId)
+                .applicationId(applicationId)
+                .beforeEntryAmount(beforeEntryAmount)
+                .afterEntryAmount(request.getEntryAmount())
+                .build();
     }
 
     private boolean isContractedApplication(Long applicationId) {
