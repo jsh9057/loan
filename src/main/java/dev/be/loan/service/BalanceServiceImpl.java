@@ -1,6 +1,8 @@
 package dev.be.loan.service;
 
 import dev.be.loan.domain.Balance;
+import dev.be.loan.dto.BalanceDTO;
+import dev.be.loan.dto.BalanceDTO.RepaymentRequest.RepaymentType;
 import dev.be.loan.dto.BalanceDTO.Request;
 import dev.be.loan.dto.BalanceDTO.Response;
 import dev.be.loan.dto.BalanceDTO.UpdateRequest;
@@ -59,6 +61,28 @@ public class BalanceServiceImpl implements BalanceService{
         balance.setBalance(updatedBalance);
 
         Balance updated = balanceRepository.save(balance);
+        return modelMapper.map(updated, Response.class);
+    }
+
+    @Override
+    public Response repaymentUpdate(Long applicationId, BalanceDTO.RepaymentRequest request) {
+        Balance balance = balanceRepository.findByApplicationId(applicationId).orElseThrow(() -> {
+            throw new BaseException(ResultType.SYSTEM_ERROR);
+        });
+
+        BigDecimal updatedBalance = balance.getBalance();
+        BigDecimal repaymentAmount = request.getRepaymentAmount();
+
+        if(request.getType().equals(RepaymentType.ADD)) {
+            updatedBalance = updatedBalance.add(repaymentAmount);
+        } else {
+            updatedBalance = updatedBalance.subtract(repaymentAmount);
+        }
+
+        balance.setBalance(updatedBalance);
+
+        Balance updated = balanceRepository.save(balance);
+
         return modelMapper.map(updated, Response.class);
     }
 }

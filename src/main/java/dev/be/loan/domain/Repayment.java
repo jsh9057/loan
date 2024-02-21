@@ -27,6 +27,6 @@ public class Repayment extends BaseEntity {
     @Column(columnDefinition = "bigint NOT NULL COMMENT '신청 ID'")
     private Long applicationId;
 
-    @Column(columnDefinition = "decimal(15,2) NOT NULL '상환 금액'")
+    @Column(columnDefinition = "decimal(15,2) NOT NULL COMMENT '상환 금액'")
     private BigDecimal repaymentAmount;
 }
