@@ -6,8 +6,10 @@ import dev.be.loan.domain.Repayment;
 import dev.be.loan.dto.BalanceDTO;
 import dev.be.loan.dto.BalanceDTO.RepaymentRequest;
 import dev.be.loan.dto.BalanceDTO.RepaymentRequest.RepaymentType;
+import dev.be.loan.dto.RepaymentDTO.ListResponse;
 import dev.be.loan.dto.RepaymentDTO.Request;
 import dev.be.loan.dto.RepaymentDTO.Response;
+import dev.be.loan.dto.RepaymentDTO.UpdateResponse;
 import dev.be.loan.exception.BaseException;
 import dev.be.loan.exception.ResultType;
 import dev.be.loan.repository.ApplicationRepository;
@@ -17,7 +19,10 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -55,6 +60,69 @@ public class RepaymentServiceImpl implements RepaymentService {
         response.setBalance(updatedBalance.getBalance());
 
         return response;
+    }
+
+    @Override
+    public List<ListResponse> get(Long applicationId) {
+        List<Repayment> repayments = repaymentRepository.findAllByApplicationId(applicationId);
+
+        return repayments.stream().map(r -> modelMapper.map(r, ListResponse.class)).collect(Collectors.toList());
+    }
+
+    @Override
+    public UpdateResponse update(Long repaymentId, Request request) {
+        Repayment repayment = repaymentRepository.findById(repaymentId).orElseThrow(() -> {
+            throw new BaseException(ResultType.SYSTEM_ERROR);
+        });
+
+        Long applicationId = repayment.getApplicationId();
+        BigDecimal beforeRepaymentAmount = repayment.getRepaymentAmount();
+
+        balanceService.repaymentUpdate(applicationId,
+                BalanceDTO.RepaymentRequest.builder()
+                        .repaymentAmount(beforeRepaymentAmount)
+                        .type(RepaymentType.ADD)
+                        .build()
+        );
+
+        repayment.setRepaymentAmount(request.getRepaymentAmount());
+        repaymentRepository.save(repayment);
+
+        BalanceDTO.Response updatedBalance = balanceService.repaymentUpdate(applicationId,
+                RepaymentRequest.builder()
+                        .repaymentAmount(request.getRepaymentAmount())
+                        .type(RepaymentType.REMOVE)
+                        .build()
+        );
+
+
+        return UpdateResponse.builder()
+                .applicationId(applicationId)
+                .beforeRepaymentAmount(beforeRepaymentAmount)
+                .afterRepaymentAmount(request.getRepaymentAmount())
+                .balance(updatedBalance.getBalance())
+                .createdAt(repayment.getCreatedAt())
+                .updatedAt(repayment.getUpdatedAt())
+                .build();
+    }
+
+    @Override
+    public void delete(Long repaymentId) {
+        Repayment repayment = repaymentRepository.findById(repaymentId).orElseThrow(() -> {
+            throw new BaseException(ResultType.SYSTEM_ERROR);
+        });
+
+        Long applicationId = repayment.getApplicationId();
+        BigDecimal removeRepaymentAmount = repayment.getRepaymentAmount();
+
+        balanceService.repaymentUpdate(applicationId,
+                RepaymentRequest.builder()
+                        .repaymentAmount(removeRepaymentAmount)
+                        .type(RepaymentType.ADD)
+                        .build());
+
+        repayment.setIsDeleted(true);
+        repaymentRepository.save(repayment);
     }
 
     private boolean isRepayableApplication(Long applicationId) {

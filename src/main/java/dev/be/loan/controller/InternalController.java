@@ -4,11 +4,14 @@ import dev.be.loan.dto.EntryDTO.Request;
 import dev.be.loan.dto.EntryDTO.Response;
 import dev.be.loan.dto.EntryDTO.UpdateResponse;
 import dev.be.loan.dto.RepaymentDTO;
+import dev.be.loan.dto.RepaymentDTO.ListResponse;
 import dev.be.loan.dto.ResponseDTO;
 import dev.be.loan.service.EntryService;
 import dev.be.loan.service.RepaymentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
@@ -43,5 +46,22 @@ public class InternalController extends AbstractController {
     @PostMapping("/{applicationId}/repayments")
     public ResponseDTO<RepaymentDTO.Response> create(@PathVariable Long applicationId, @RequestBody RepaymentDTO.Request request) {
         return ok(repaymentService.create(applicationId, request));
+    }
+
+    @GetMapping("/{applicationId}/repayments")
+    public ResponseDTO<List<ListResponse>> getPayments(@PathVariable Long applicationId) {
+        return ok(repaymentService.get(applicationId));
+    }
+
+    @PutMapping("/{repaymentId}/repayments")
+    public ResponseDTO<RepaymentDTO.UpdateResponse> update(@PathVariable Long repaymentId,
+                                                           @RequestBody RepaymentDTO.Request request) {
+        return ok(repaymentService.update(repaymentId, request));
+    }
+
+    @DeleteMapping("/repayments/{repaymentId}")
+    public ResponseDTO<Void> deleteRepayment(@PathVariable Long repaymentId) {
+        repaymentService.delete(repaymentId);
+        return ok();
     }
 }
