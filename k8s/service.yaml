@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: jsh-loan
+  namespace: default
+  labels:
+    app: jsh-loan
+spec:
+  selector:
+    app: jsh-loan
+  ports:
+    - name: http
+      port: 8080
+      targetPort: 8080
+  type: LoadBalancer

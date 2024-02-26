@@ -1,0 +1,6 @@
+apiVersion: skaffold/v4beta5
+kind: Config
+build:
+  artifacts:
+    - image: jsh-loan
+      jib: {}

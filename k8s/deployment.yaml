@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jsh-loan
+spec:
+  selector:
+    matchLabels:
+      app: jsh-loan
+  template:
+    metadata:
+      labels:
+        app: jsh-loan
+    spec:
+      containers:
+        - name: jsh-loan
+          image: jsh-loan
+          ports:
+            - containerPort: 8080
+          
